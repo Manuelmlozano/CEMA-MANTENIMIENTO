@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CEMA — Mantenimiento Preventivo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@400;500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="layout">
+
+    <aside class="sidebar">
+      <div class="sidebar-top">
+        <div class="logo">
+          <span class="logo-mark">C</span>
+          <div>
+            <div class="logo-name">CEMA</div>
+            <div class="logo-sub">Mantenimiento Preventivo</div>
+          </div>
+        </div>
+        <nav class="nav">
+          <button class="nav-item active" data-tab="dashboard">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+            Dashboard
+          </button>
+          <button class="nav-item" data-tab="tareas">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="M9 12l2 2 4-4"/></svg>
+            Tareas
+          </button>
+          <button class="nav-item" data-tab="historial">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            Historial
+          </button>
+        </nav>
+      </div>
+      <button class="btn-new" onclick="openModal()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+        Nueva tarea
+      </button>
+    </aside>
+
+    <main class="main">
+      <!-- DASHBOARD -->
+      <div id="tab-dashboard" class="tab active">
+        <div class="page-header">
+          <div>
+            <h1>Dashboard</h1>
+            <p class="page-date" id="today-label"></p>
+          </div>
+        </div>
+
+        <div class="metrics-grid" id="metrics"></div>
+
+        <div class="two-col">
+          <div class="panel">
+            <div class="panel-header">
+              <span class="panel-title">Vencidas &amp; urgentes</span>
+              <span class="dot dot-red"></span>
+            </div>
+            <div id="urgent-list" class="card-list"></div>
+          </div>
+          <div class="panel">
+            <div class="panel-header">
+              <span class="panel-title">Próximos 7 días</span>
+              <span class="dot dot-amber"></span>
+            </div>
+            <div id="soon-list" class="card-list"></div>
+          </div>
+        </div>
+
+        <div class="panel" style="margin-top:1.5rem">
+          <div class="panel-header">
+            <span class="panel-title">Tareas por sector</span>
+          </div>
+          <div id="sector-chart"></div>
+        </div>
+      </div>
+
+      <!-- TAREAS -->
+      <div id="tab-tareas" class="tab">
+        <div class="page-header">
+          <h1>Todas las tareas</h1>
+          <div class="filters">
+            <select id="filter-sector" onchange="renderTareas()">
+              <option value="">Todos los sectores</option>
+            </select>
+            <select id="filter-resp" onchange="renderTareas()">
+              <option value="">Todos los responsables</option>
+            </select>
+            <select id="filter-estado" onchange="renderTareas()">
+              <option value="">Todos los estados</option>
+              <option value="vencida">Vencida</option>
+              <option value="hoy">Hoy</option>
+              <option value="pronto">Esta semana</option>
+              <option value="ok">Al día</option>
+            </select>
+          </div>
+        </div>
+        <div id="all-tasks-list" class="card-list"></div>
+      </div>
+
+      <!-- HISTORIAL -->
+      <div id="tab-historial" class="tab">
+        <div class="page-header">
+          <h1>Historial</h1>
+        </div>
+        <div id="hist-list"></div>
+      </div>
+    </main>
+  </div>
+
+  <!-- MODAL -->
+  <div class="modal-bg" id="modal-bg" onclick="handleModalBgClick(event)">
+    <div class="modal">
+      <div class="modal-header">
+        <h3>Nueva tarea</h3>
+        <button class="modal-close" onclick="closeModal()">✕</button>
+      </div>
+      <div class="form-grid">
+        <div class="form-group full">
+          <label>Descripción de la tarea</label>
+          <input id="m-tarea" type="text" placeholder="Ej: Engrase rodamientos motor principal">
+        </div>
+        <div class="form-group">
+          <label>Sector</label>
+          <input id="m-sector" type="text" placeholder="Ej: Molienda">
+        </div>
+        <div class="form-group">
+          <label>Responsable</label>
+          <input id="m-resp" type="text" placeholder="Ej: Pablo Monrroy">
+        </div>
+        <div class="form-group">
+          <label>Periodicidad (días)</label>
+          <input id="m-period" type="number" placeholder="7" min="1">
+        </div>
+        <div class="form-group">
+          <label>Última ejecución</label>
+          <input id="m-fecha" type="date">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-cancel" onclick="closeModal()">Cancelar</button>
+        <button class="btn-save" onclick="saveTask()">Guardar tarea</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
