@@ -261,7 +261,7 @@ async function confirmarRealizada() {
     t.ultima = todayStr; t.prox = newProx;
     t.diff = Math.round((newProx-TODAY)/86400000);
     t.estado = t.diff===0?'hoy':t.diff<=7?'pronto':'ok';
-    t.doneToday = true;
+    t.doneToday = false;
   } catch(e) { alert('Error al guardar.'); }
   hideLoading();
   renderAll();
