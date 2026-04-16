@@ -18,68 +18,83 @@
           <span class="logo-mark">C</span>
           <div>
             <div class="logo-name">CEMA</div>
-            <div class="logo-sub">Mantenimiento Preventivo</div>
+            <div class="logo-sub">Mantenimiento</div>
           </div>
         </div>
         <nav class="nav">
-          <button class="nav-item active" data-tab="dashboard">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
-            Dashboard
+          <button class="nav-item active" data-tab="hoy">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            <span>Hoy</span>
+          </button>
+          <button class="nav-item" data-tab="calendario">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+            <span>Calendario</span>
           </button>
           <button class="nav-item" data-tab="tareas">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="M9 12l2 2 4-4"/></svg>
-            Tareas
+            <span>Todas</span>
           </button>
           <button class="nav-item" data-tab="historial">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-            Historial
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            <span>Historial</span>
           </button>
         </nav>
       </div>
       <button class="btn-new" onclick="openModal()">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-        Nueva tarea
+        <span>Nueva tarea</span>
       </button>
     </aside>
 
     <main class="main">
-      <!-- DASHBOARD -->
-      <div id="tab-dashboard" class="tab active">
+
+      <!-- HOY -->
+      <div id="tab-hoy" class="tab active">
         <div class="page-header">
           <div>
-            <h1>Dashboard</h1>
+            <h1>Tareas de hoy</h1>
             <p class="page-date" id="today-label"></p>
           </div>
+          <div class="metrics-row" id="metrics-hoy"></div>
         </div>
-
-        <div class="metrics-grid" id="metrics"></div>
-
-        <div class="two-col">
-          <div class="panel">
-            <div class="panel-header">
-              <span class="panel-title">Vencidas &amp; urgentes</span>
-              <span class="dot dot-red"></span>
-            </div>
-            <div id="urgent-list" class="card-list"></div>
-          </div>
-          <div class="panel">
-            <div class="panel-header">
-              <span class="panel-title">Próximos 7 días</span>
-              <span class="dot dot-amber"></span>
-            </div>
-            <div id="soon-list" class="card-list"></div>
-          </div>
+        <div id="hoy-vencidas-wrap">
+          <div class="section-label danger-label">⚠ Vencidas (requieren atención)</div>
+          <div id="hoy-vencidas" class="task-grid"></div>
         </div>
-
-        <div class="panel" style="margin-top:1.5rem">
-          <div class="panel-header">
-            <span class="panel-title">Tareas por sector</span>
-          </div>
-          <div id="sector-chart"></div>
+        <div id="hoy-tareas-wrap">
+          <div class="section-label">📋 Para realizar hoy</div>
+          <div id="hoy-lista" class="task-grid"></div>
+        </div>
+        <div id="hoy-empty" class="empty-state" style="display:none">
+          <div class="empty-icon">✅</div>
+          <div class="empty-title">¡Todo al día!</div>
+          <div class="empty-sub">No hay tareas vencidas ni para hoy.</div>
         </div>
       </div>
 
-      <!-- TAREAS -->
+      <!-- CALENDARIO -->
+      <div id="tab-calendario" class="tab">
+        <div class="page-header">
+          <div>
+            <h1>Calendario</h1>
+            <p class="page-date">Vista mensual de mantenimientos</p>
+          </div>
+          <div class="cal-nav">
+            <button class="cal-btn" onclick="prevMonth()">‹</button>
+            <span id="cal-title" class="cal-title"></span>
+            <button class="cal-btn" onclick="nextMonth()">›</button>
+          </div>
+        </div>
+        <div class="calendar-grid" id="calendar"></div>
+        <div class="cal-legend">
+          <span class="leg-item"><span class="leg-dot dot-red"></span>Vencida</span>
+          <span class="leg-item"><span class="leg-dot dot-amber"></span>Hoy</span>
+          <span class="leg-item"><span class="leg-dot dot-blue"></span>Próxima</span>
+          <span class="leg-item"><span class="leg-dot dot-green"></span>Realizada</span>
+        </div>
+      </div>
+
+      <!-- TODAS -->
       <div id="tab-tareas" class="tab">
         <div class="page-header">
           <h1>Todas las tareas</h1>
@@ -99,7 +114,7 @@
             </select>
           </div>
         </div>
-        <div id="all-tasks-list" class="card-list"></div>
+        <div id="all-tasks-grid" class="task-grid"></div>
       </div>
 
       <!-- HISTORIAL -->
@@ -109,10 +124,11 @@
         </div>
         <div id="hist-list"></div>
       </div>
+
     </main>
   </div>
 
-  <!-- MODAL -->
+  <!-- MODAL NUEVA TAREA -->
   <div class="modal-bg" id="modal-bg" onclick="handleModalBgClick(event)">
     <div class="modal">
       <div class="modal-header">
@@ -145,6 +161,42 @@
         <button class="btn-cancel" onclick="closeModal()">Cancelar</button>
         <button class="btn-save" onclick="saveTask()">Guardar tarea</button>
       </div>
+    </div>
+  </div>
+
+  <!-- MODAL DETALLE / COMPLETAR TAREA -->
+  <div class="modal-bg" id="detail-bg" onclick="handleDetailBgClick(event)">
+    <div class="modal modal-detail">
+      <div class="modal-header">
+        <h3 id="detail-title">Detalle de tarea</h3>
+        <button class="modal-close" onclick="closeDetail()">✕</button>
+      </div>
+      <div class="detail-body">
+        <div class="detail-row"><span class="detail-label">Sector</span><span id="detail-sector"></span></div>
+        <div class="detail-row"><span class="detail-label">Responsable</span><span id="detail-resp"></span></div>
+        <div class="detail-row"><span class="detail-label">Periodicidad</span><span id="detail-period"></span></div>
+        <div class="detail-row"><span class="detail-label">Última ejecución</span><span id="detail-ultima"></span></div>
+        <div class="detail-row"><span class="detail-label">Próxima ejecución</span><span id="detail-prox"></span></div>
+        <div class="detail-row"><span class="detail-label">Estado</span><span id="detail-badge"></span></div>
+      </div>
+      <div class="detail-question">
+        <p>¿Realizaste esta tarea hoy?</p>
+        <div class="detail-btns">
+          <button class="btn-no" onclick="closeDetail()">No, cerrar</button>
+          <button class="btn-si" onclick="confirmarRealizada()">✓ Sí, la realicé</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL CALENDARIO DIA -->
+  <div class="modal-bg" id="day-bg" onclick="handleDayBgClick(event)">
+    <div class="modal modal-day">
+      <div class="modal-header">
+        <h3 id="day-title"></h3>
+        <button class="modal-close" onclick="closeDay()">✕</button>
+      </div>
+      <div id="day-tasks" class="card-list" style="padding:1rem 1.5rem;"></div>
     </div>
   </div>
 
