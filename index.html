@@ -11,7 +11,6 @@
 </head>
 <body>
   <div class="layout">
-
     <aside class="sidebar">
       <div class="sidebar-top">
         <div class="logo">
@@ -38,7 +37,7 @@
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
             <span>Historial</span>
           </button>
-          <button class="nav-item" data-tab="admin" id="admin-nav-btn">
+          <button class="nav-item" data-tab="admin">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 15a3 3 0 100-6 3 3 0 000 6z"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
             <span>Admin</span>
           </button>
@@ -51,8 +50,6 @@
     </aside>
 
     <main class="main">
-
-      <!-- HOY -->
       <div id="tab-hoy" class="tab active">
         <div class="page-header">
           <div>
@@ -61,28 +58,14 @@
           </div>
           <div class="metrics-row" id="metrics-hoy"></div>
         </div>
-        <div id="hoy-vencidas-wrap">
-          <div class="section-label danger-label">⚠ Vencidas (requieren atención)</div>
-          <div id="hoy-vencidas" class="task-grid"></div>
-        </div>
-        <div id="hoy-tareas-wrap">
-          <div class="section-label">📋 Para realizar hoy</div>
-          <div id="hoy-lista" class="task-grid"></div>
-        </div>
-        <div id="hoy-empty" class="empty-state" style="display:none">
-          <div class="empty-icon">✅</div>
-          <div class="empty-title">¡Todo al día!</div>
-          <div class="empty-sub">No hay tareas vencidas ni para hoy.</div>
-        </div>
+        <div id="hoy-vencidas-wrap"><div class="section-label danger-label">⚠ Vencidas</div><div id="hoy-vencidas" class="task-grid"></div></div>
+        <div id="hoy-tareas-wrap"><div class="section-label">📋 Para realizar hoy</div><div id="hoy-lista" class="task-grid"></div></div>
+        <div id="hoy-empty" class="empty-state" style="display:none"><div class="empty-icon">✅</div><div class="empty-title">¡Todo al día!</div><div class="empty-sub">No hay tareas vencidas ni para hoy.</div></div>
       </div>
 
-      <!-- CALENDARIO -->
       <div id="tab-calendario" class="tab">
         <div class="page-header">
-          <div>
-            <h1>Calendario</h1>
-            <p class="page-date">Vista mensual de mantenimientos</p>
-          </div>
+          <div><h1>Calendario</h1><p class="page-date">Vista mensual</p></div>
           <div class="cal-nav">
             <button class="cal-btn" onclick="prevMonth()">‹</button>
             <span id="cal-title" class="cal-title"></span>
@@ -98,7 +81,6 @@
         </div>
       </div>
 
-      <!-- TODAS -->
       <div id="tab-tareas" class="tab">
         <div class="page-header">
           <h1>Todas las tareas</h1>
@@ -117,15 +99,12 @@
         <div id="all-tasks-grid" class="task-grid"></div>
       </div>
 
-      <!-- HISTORIAL -->
       <div id="tab-historial" class="tab">
         <div class="page-header"><h1>Historial</h1></div>
         <div id="hist-list"></div>
       </div>
 
-      <!-- ADMIN -->
       <div id="tab-admin" class="tab">
-        <!-- LOGIN -->
         <div id="admin-login">
           <div class="login-wrap">
             <div class="login-icon">🔒</div>
@@ -138,14 +117,9 @@
             <div id="login-error" class="login-error"></div>
           </div>
         </div>
-
-        <!-- PANEL -->
         <div id="admin-panel" style="display:none">
           <div class="page-header">
-            <div>
-              <h1>Administrador</h1>
-              <p class="page-date">Gestión de tareas de mantenimiento</p>
-            </div>
+            <div><h1>Administrador</h1><p class="page-date">Gestión de tareas</p></div>
             <div style="display:flex;gap:8px;">
               <button class="btn-save" onclick="openModal()">+ Nueva tarea</button>
               <button class="btn-cancel" onclick="logoutAdmin()">Cerrar sesión</button>
@@ -154,38 +128,26 @@
           <div id="admin-task-list" class="admin-list"></div>
         </div>
       </div>
-
     </main>
   </div>
 
-  <!-- MODAL NUEVA / EDITAR TAREA -->
+  <!-- LOADING -->
+  <div id="loading-overlay" style="display:flex;position:fixed;inset:0;background:rgba(14,15,17,0.95);z-index:999;align-items:center;justify-content:center;flex-direction:column;gap:12px;">
+    <div style="width:32px;height:32px;border:2px solid rgba(232,197,71,0.2);border-top-color:#e8c547;border-radius:50%;animation:spin 0.8s linear infinite;"></div>
+    <div id="loading-msg" style="font-family:'DM Mono',monospace;font-size:12px;color:#8a8680;">Conectando...</div>
+  </div>
+  <style>@keyframes spin{to{transform:rotate(360deg)}}</style>
+
+  <!-- MODAL NUEVA/EDITAR -->
   <div class="modal-bg" id="modal-bg" onclick="handleModalBgClick(event)">
     <div class="modal">
-      <div class="modal-header">
-        <h3 id="modal-title">Nueva tarea</h3>
-        <button class="modal-close" onclick="closeModal()">✕</button>
-      </div>
+      <div class="modal-header"><h3 id="modal-title">Nueva tarea</h3><button class="modal-close" onclick="closeModal()">✕</button></div>
       <div class="form-grid">
-        <div class="form-group full">
-          <label>Descripción de la tarea</label>
-          <input id="m-tarea" type="text" placeholder="Ej: Engrase rodamientos motor principal">
-        </div>
-        <div class="form-group">
-          <label>Sector</label>
-          <input id="m-sector" type="text" placeholder="Ej: Molienda">
-        </div>
-        <div class="form-group">
-          <label>Responsable</label>
-          <input id="m-resp" type="text" placeholder="Ej: Pablo Monrroy">
-        </div>
-        <div class="form-group">
-          <label>Periodicidad (días)</label>
-          <input id="m-period" type="number" placeholder="7" min="1">
-        </div>
-        <div class="form-group">
-          <label>Última ejecución</label>
-          <input id="m-fecha" type="date">
-        </div>
+        <div class="form-group full"><label>Descripción</label><input id="m-tarea" type="text" placeholder="Ej: Engrase rodamientos"></div>
+        <div class="form-group"><label>Sector</label><input id="m-sector" type="text" placeholder="Ej: Molienda"></div>
+        <div class="form-group"><label>Responsable</label><input id="m-resp" type="text" placeholder="Ej: Pablo Monrroy"></div>
+        <div class="form-group"><label>Periodicidad (días)</label><input id="m-period" type="number" placeholder="7" min="1"></div>
+        <div class="form-group"><label>Última ejecución</label><input id="m-fecha" type="date"></div>
       </div>
       <div class="modal-footer">
         <button class="btn-cancel" onclick="closeModal()">Cancelar</button>
@@ -194,13 +156,10 @@
     </div>
   </div>
 
-  <!-- MODAL DETALLE / COMPLETAR -->
+  <!-- MODAL DETALLE -->
   <div class="modal-bg" id="detail-bg" onclick="handleDetailBgClick(event)">
     <div class="modal modal-detail">
-      <div class="modal-header">
-        <h3 id="detail-title"></h3>
-        <button class="modal-close" onclick="closeDetail()">✕</button>
-      </div>
+      <div class="modal-header"><h3 id="detail-title"></h3><button class="modal-close" onclick="closeDetail()">✕</button></div>
       <div class="detail-body">
         <div class="detail-row"><span class="detail-label">Sector</span><span id="detail-sector"></span></div>
         <div class="detail-row"><span class="detail-label">Responsable</span><span id="detail-resp"></span></div>
@@ -219,13 +178,10 @@
     </div>
   </div>
 
-  <!-- MODAL CALENDARIO DIA -->
+  <!-- MODAL DIA -->
   <div class="modal-bg" id="day-bg" onclick="handleDayBgClick(event)">
     <div class="modal modal-day">
-      <div class="modal-header">
-        <h3 id="day-title"></h3>
-        <button class="modal-close" onclick="closeDay()">✕</button>
-      </div>
+      <div class="modal-header"><h3 id="day-title"></h3><button class="modal-close" onclick="closeDay()">✕</button></div>
       <div id="day-tasks" class="card-list" style="padding:1rem 1.5rem;"></div>
     </div>
   </div>
@@ -233,13 +189,8 @@
   <!-- CONFIRM ELIMINAR -->
   <div class="modal-bg" id="confirm-bg" onclick="handleConfirmBgClick(event)">
     <div class="modal" style="max-width:380px;">
-      <div class="modal-header">
-        <h3>Eliminar tarea</h3>
-        <button class="modal-close" onclick="closeConfirm()">✕</button>
-      </div>
-      <div style="padding:1.25rem 1.5rem;font-size:13px;color:var(--text2);">
-        ¿Estás seguro que querés eliminar <strong id="confirm-name" style="color:var(--text)"></strong>? Esta acción no se puede deshacer.
-      </div>
+      <div class="modal-header"><h3>Eliminar tarea</h3><button class="modal-close" onclick="closeConfirm()">✕</button></div>
+      <div style="padding:1.25rem 1.5rem;font-size:13px;color:var(--text2);">¿Eliminás <strong id="confirm-name" style="color:var(--text)"></strong>? No se puede deshacer.</div>
       <div class="modal-footer">
         <button class="btn-cancel" onclick="closeConfirm()">Cancelar</button>
         <button class="btn-delete" onclick="confirmarEliminar()">Eliminar</button>
@@ -247,7 +198,9 @@
     </div>
   </div>
 
-  <div id="loading-overlay" style="display:flex;position:fixed;inset:0;background:rgba(14,15,17,0.92);z-index:999;align-items:center;justify-content:center;flex-direction:column;gap:12px;"><div style="width:32px;height:32px;border:2px solid rgba(232,197,71,0.2);border-top-color:#e8c547;border-radius:50%;animation:spin 0.8s linear infinite;"></div><div id="loading-msg" style="font-family:DM Mono,monospace;font-size:12px;color:#8a8680;">Cargando...</div></div><style>@keyframes spin{to{transform:rotate(360deg)}}</style>
-  <script type="module" src="app.js"></script>
+  <!-- FIREBASE CDN -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>
