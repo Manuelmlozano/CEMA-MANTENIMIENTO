@@ -52,7 +52,7 @@ const RAW_TASKS = [
   {id:'30', tarea:'Control barra DAFF',                               sector:'Molienda',      resp:'Walter Ruiz',      period:31,  ultima:'2026-05-10'},
   {id:'31', tarea:'Cambio rampa gas y bba agua',                      sector:'Servicios aux', resp:'Yuri Claure',      period:31,  ultima:'2026-03-30'},
   {id:'32', tarea:'Checklist subestación eléctrica',                  sector:'Servicios aux', resp:'Yuri Claure',      period:7,   ultima:'2026-04-13'},
-  {id:'33', tarea:'Rectificado laminadores',                          sector:'Molienda',      resp:'Jesus Cristancho', period:1,   ultima:'2026-04-16'},
+  {id:'33', tarea:'Rectificado laminadores',                          sector:'Molienda',      resp:'Jesus Cristancho', period:180,   ultima:'2026-01-16'},
   {id:'34', tarea:'Control limpieza cinta descarte apilado',          sector:'Apilado',       resp:'Orellana',         period:1,   ultima:'2026-04-19'},
 ];
 
