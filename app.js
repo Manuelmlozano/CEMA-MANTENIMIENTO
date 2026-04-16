@@ -68,10 +68,9 @@ function calcTask(raw) {
 
 function getStatus(t) {
   if (t.doneToday) return { label: '✓ Realizada', cls: 'done', cardCls: 'done-today' };
-  if (t.diff < 0)   return { label: `Vencida ${Math.abs(t.diff)}d`, cls: 'danger',  cardCls: 'overdue' };
-  if (t.diff === 0)  return { label: 'Hoy',                          cls: 'warning', cardCls: 'today'   };
-  if (t.diff <= 7)   return { label: `En ${t.diff}d`,               cls: 'info',    cardCls: 'soon'    };
-  return                    { label: `En ${t.diff}d`,               cls: 'success', cardCls: 'ok'      };
+  if (t.diff < 0)  return { label: `Vencida ${Math.abs(t.diff)}d`, cls: 'danger',  cardCls: 'overdue' };
+  if (t.diff === 0) return { label: 'Hoy',                          cls: 'warning', cardCls: 'today'   };
+  return                   { label: `En ${t.diff}d`,               cls: 'info',    cardCls: 'soon'    };
 }
 
 function fmtDate(d) { return d.toLocaleDateString('es-AR', { day:'2-digit', month:'short', year:'numeric' }); }
