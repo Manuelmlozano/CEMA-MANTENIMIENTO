@@ -247,6 +247,7 @@
     </div>
   </div>
 
-  <script src="app.js"></script>
+  <div id="loading-overlay" style="display:flex;position:fixed;inset:0;background:rgba(14,15,17,0.92);z-index:999;align-items:center;justify-content:center;flex-direction:column;gap:12px;"><div style="width:32px;height:32px;border:2px solid rgba(232,197,71,0.2);border-top-color:#e8c547;border-radius:50%;animation:spin 0.8s linear infinite;"></div><div id="loading-msg" style="font-family:DM Mono,monospace;font-size:12px;color:#8a8680;">Cargando...</div></div><style>@keyframes spin{to{transform:rotate(360deg)}}</style>
+  <script type="module" src="app.js"></script>
 </body>
 </html>
