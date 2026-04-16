@@ -38,6 +38,10 @@
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
             <span>Historial</span>
           </button>
+          <button class="nav-item" data-tab="admin" id="admin-nav-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 15a3 3 0 100-6 3 3 0 000 6z"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+            <span>Admin</span>
+          </button>
         </nav>
       </div>
       <button class="btn-new" onclick="openModal()">
@@ -99,12 +103,8 @@
         <div class="page-header">
           <h1>Todas las tareas</h1>
           <div class="filters">
-            <select id="filter-sector" onchange="renderTareas()">
-              <option value="">Todos los sectores</option>
-            </select>
-            <select id="filter-resp" onchange="renderTareas()">
-              <option value="">Todos los responsables</option>
-            </select>
+            <select id="filter-sector" onchange="renderTareas()"><option value="">Todos los sectores</option></select>
+            <select id="filter-resp" onchange="renderTareas()"><option value="">Todos los responsables</option></select>
             <select id="filter-estado" onchange="renderTareas()">
               <option value="">Todos los estados</option>
               <option value="vencida">Vencida</option>
@@ -119,20 +119,50 @@
 
       <!-- HISTORIAL -->
       <div id="tab-historial" class="tab">
-        <div class="page-header">
-          <h1>Historial</h1>
-        </div>
+        <div class="page-header"><h1>Historial</h1></div>
         <div id="hist-list"></div>
+      </div>
+
+      <!-- ADMIN -->
+      <div id="tab-admin" class="tab">
+        <!-- LOGIN -->
+        <div id="admin-login">
+          <div class="login-wrap">
+            <div class="login-icon">🔒</div>
+            <h2>Panel de administrador</h2>
+            <p class="login-sub">Ingresá la contraseña para acceder</p>
+            <div class="login-form">
+              <input id="admin-pass" type="password" placeholder="Contraseña" onkeydown="if(event.key==='Enter') checkPass()">
+              <button class="btn-save" onclick="checkPass()">Ingresar</button>
+            </div>
+            <div id="login-error" class="login-error"></div>
+          </div>
+        </div>
+
+        <!-- PANEL -->
+        <div id="admin-panel" style="display:none">
+          <div class="page-header">
+            <div>
+              <h1>Administrador</h1>
+              <p class="page-date">Gestión de tareas de mantenimiento</p>
+            </div>
+            <div style="display:flex;gap:8px;">
+              <button class="btn-save" onclick="openModal()">+ Nueva tarea</button>
+              <button class="btn-cancel" onclick="logoutAdmin()">Cerrar sesión</button>
+            </div>
+          </div>
+          <div id="admin-task-list" class="admin-list"></div>
+        </div>
       </div>
 
     </main>
   </div>
 
-  <!-- MODAL NUEVA TAREA -->
+  <!-- MODAL NUEVA / EDITAR TAREA -->
   <div class="modal-bg" id="modal-bg" onclick="handleModalBgClick(event)">
     <div class="modal">
       <div class="modal-header">
-        <h3>Nueva tarea</h3>
+        <h3 id="modal-title">Nueva tarea</h3>
         <button class="modal-close" onclick="closeModal()">✕</button>
       </div>
       <div class="form-grid">
@@ -159,16 +189,16 @@
       </div>
       <div class="modal-footer">
         <button class="btn-cancel" onclick="closeModal()">Cancelar</button>
-        <button class="btn-save" onclick="saveTask()">Guardar tarea</button>
+        <button class="btn-save" id="modal-save-btn" onclick="saveTask()">Guardar tarea</button>
       </div>
     </div>
   </div>
 
-  <!-- MODAL DETALLE / COMPLETAR TAREA -->
+  <!-- MODAL DETALLE / COMPLETAR -->
   <div class="modal-bg" id="detail-bg" onclick="handleDetailBgClick(event)">
     <div class="modal modal-detail">
       <div class="modal-header">
-        <h3 id="detail-title">Detalle de tarea</h3>
+        <h3 id="detail-title"></h3>
         <button class="modal-close" onclick="closeDetail()">✕</button>
       </div>
       <div class="detail-body">
@@ -197,6 +227,23 @@
         <button class="modal-close" onclick="closeDay()">✕</button>
       </div>
       <div id="day-tasks" class="card-list" style="padding:1rem 1.5rem;"></div>
+    </div>
+  </div>
+
+  <!-- CONFIRM ELIMINAR -->
+  <div class="modal-bg" id="confirm-bg" onclick="handleConfirmBgClick(event)">
+    <div class="modal" style="max-width:380px;">
+      <div class="modal-header">
+        <h3>Eliminar tarea</h3>
+        <button class="modal-close" onclick="closeConfirm()">✕</button>
+      </div>
+      <div style="padding:1.25rem 1.5rem;font-size:13px;color:var(--text2);">
+        ¿Estás seguro que querés eliminar <strong id="confirm-name" style="color:var(--text)"></strong>? Esta acción no se puede deshacer.
+      </div>
+      <div class="modal-footer">
+        <button class="btn-cancel" onclick="closeConfirm()">Cancelar</button>
+        <button class="btn-delete" onclick="confirmarEliminar()">Eliminar</button>
+      </div>
     </div>
   </div>
 
