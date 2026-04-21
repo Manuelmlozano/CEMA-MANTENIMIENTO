@@ -131,14 +131,12 @@
     </main>
   </div>
 
-  <!-- LOADING -->
   <div id="loading-overlay" style="display:flex;position:fixed;inset:0;background:rgba(14,15,17,0.95);z-index:999;align-items:center;justify-content:center;flex-direction:column;gap:12px;">
     <div style="width:32px;height:32px;border:2px solid rgba(232,197,71,0.2);border-top-color:#e8c547;border-radius:50%;animation:spin 0.8s linear infinite;"></div>
     <div id="loading-msg" style="font-family:'DM Mono',monospace;font-size:12px;color:#8a8680;">Conectando...</div>
   </div>
   <style>@keyframes spin{to{transform:rotate(360deg)}}</style>
 
-  <!-- MODAL NUEVA/EDITAR -->
   <div class="modal-bg" id="modal-bg" onclick="handleModalBgClick(event)">
     <div class="modal">
       <div class="modal-header"><h3 id="modal-title">Nueva tarea</h3><button class="modal-close" onclick="closeModal()">✕</button></div>
@@ -156,7 +154,6 @@
     </div>
   </div>
 
-  <!-- MODAL DETALLE -->
   <div class="modal-bg" id="detail-bg" onclick="handleDetailBgClick(event)">
     <div class="modal modal-detail">
       <div class="modal-header"><h3 id="detail-title"></h3><button class="modal-close" onclick="closeDetail()">✕</button></div>
@@ -171,14 +168,14 @@
       <div class="detail-question">
         <p>¿Realizaste esta tarea hoy?</p>
         <div class="detail-btns">
-          <button class="btn-no" onclick="closeDetail()">No, cerrar</button>
+          <button class="btn-no" onclick="closeDetail()">Cerrar</button>
+          <button class="btn-repro" onclick="openReprogramar()">↻ Reprogramar</button>
           <button class="btn-si" onclick="confirmarRealizada()">✓ Sí, la realicé</button>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- MODAL DIA -->
   <div class="modal-bg" id="day-bg" onclick="handleDayBgClick(event)">
     <div class="modal modal-day">
       <div class="modal-header"><h3 id="day-title"></h3><button class="modal-close" onclick="closeDay()">✕</button></div>
@@ -186,7 +183,6 @@
     </div>
   </div>
 
-  <!-- CONFIRM ELIMINAR -->
   <div class="modal-bg" id="confirm-bg" onclick="handleConfirmBgClick(event)">
     <div class="modal" style="max-width:380px;">
       <div class="modal-header"><h3>Eliminar tarea</h3><button class="modal-close" onclick="closeConfirm()">✕</button></div>
@@ -198,7 +194,22 @@
     </div>
   </div>
 
-  <!-- FIREBASE CDN -->
+  <div class="modal-bg" id="repro-bg" onclick="handleReproBgClick(event)">
+    <div class="modal" style="max-width:420px;">
+      <div class="modal-header"><h3>Reprogramar tarea</h3><button class="modal-close" onclick="closeReprogramar()">✕</button></div>
+      <div style="padding:1.25rem 1.5rem;">
+        <p id="repro-task-name" style="font-size:13px;color:var(--text);margin:0 0 1rem;font-weight:500;"></p>
+        <label style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:0.07em;font-family:var(--font-mono);display:block;margin-bottom:0.4rem;">Nueva fecha para realizarla</label>
+        <input id="repro-fecha" type="date" style="width:100%;padding:8px 12px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius);color:var(--text);font-family:var(--font-body);font-size:13px;outline:none;">
+        <p style="font-size:11px;color:var(--text3);margin:0.85rem 0 0;line-height:1.5;font-family:var(--font-mono);">La próxima ejecución pasará a la fecha elegida. El ciclo de <span id="repro-periodo" style="color:var(--text2)"></span> se reinicia desde ese día.</p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-cancel" onclick="closeReprogramar()">Cancelar</button>
+        <button class="btn-save" onclick="confirmarReprogramar()">Reprogramar</button>
+      </div>
+    </div>
+  </div>
+
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
   <script src="app.js"></script>
